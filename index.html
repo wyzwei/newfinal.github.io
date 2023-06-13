@@ -1,0 +1,137 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.88.1">
+  <title>Weather</title>
+
+  <link rel="canonical" href="https://bootstrap5.hexschool.com/docs/5.1/examples/jumbotron/">
+
+
+
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.css" rel="stylesheet" >
+
+
+
+
+
+
+</head>
+<body onload="function current_time() {
+
+}
+current_time()">
+
+<span id="current"></span>
+
+<main>
+  <div class="container py-4">
+    <header class="pb-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+        <img alt="" src="LOGO.png" width="60" height="51" class="me-2"  role="img">
+        <span class="fs-3">Weather</span>
+      </a>
+    </header>
+
+    <div class="p-5 mb-4 bg-light rounded-3">
+      <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Today</h1>
+        <p onclick="myDate()">日期時間:</p><span id="mToday"></span><Br>
+        <p class="col-md-8 fs-4"></p>
+        <button class="btn btn-primary btn-lg" type="button" onclick="window.location.href='https://www.cwb.gov.tw/V8/C/'">各地區天氣</button>
+      </div>
+    </div>
+
+    <div class="row align-items-md-stretch">
+      <div class="col-md-6">
+        <div class="h-100 p-5 text-white bg-dark rounded-3">
+          <h2>Rain</h2>
+          <p>降雨機率</p>
+          <button class="btn btn-outline-light" type="button" onclick="window.location.href='https://www.cwb.gov.tw/V8/C/W/County/index.html'">各地區雨量</button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="h-100 p-5 bg-light border rounded-3">
+          <h2>Reservoir</h2>
+          <button class="btn btn-outline-secondary" type="button" onclick="window.location.href='https://water.taiwanstat.com/'">各地區水庫存量</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="pt-3 mt-4 text-muted border-top">
+      &copy; 2023
+    </footer>
+  </div>
+</main>
+
+
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script>
+  function minnow(){
+    Today = new Date();
+    yy=Today.getFullYear();
+    mm=Today.getMonth()+1;
+    dd=Today.getDate();
+    h=Today.getHours();
+    m=Today.getMinutes();
+    s=Today.getSeconds();
+  }
+  function myDate(){
+    minnow();
+    document.getElementById("mToday").innerHTML = Today;
+    setTimeout('myDate()',1000)
+  }
+  function mToday(){
+    minnow();
+    document.getElementById("may").innerHTML = yy+"年"+mm+"月"+dd+"日";
+    setTimeout('mToday()',1000)
+  }
+  function mTime(){
+    minnow()
+    document.getElementById("mT").innerHTML = h+":"+m+":"+s;
+    setTimeout('mTime()',1000)
+  }
+
+</script>
+<script>
+  $(function () {
+    console.log("AAA");
+    callAPI();
+  })
+
+  function callAPI() {
+    console.log("CallAPI...")
+    var url = "https://data.wra.gov.tw/OpenAPI/api/OpenData/50C8256D-30C5-4B8D-9B84-2E14D5C6DF71/Data?size=200&page=1"
+    // console.log(url); //for debug
+    $.ajax({
+      url: url,
+      dataType: "json",
+      type: "get",
+      //data:data,
+      //Type: Function(Anything data, String textStatus, jqXHR jqXHR)
+      success: function(data) {
+        console.log(JSON.stringify(data));
+        //date.responseData[0].StationIdentifier
+        for(var i=0;i<data.responseData[i].ReservoirName.length;i++){
+          console.log("name=>"+data.responseData[i].ReservoirName);
+        }
+
+      },
+      //Type: Function(jqXHR jqXHR, String textStatus, String errorThrown)
+      error: function(jqXHR, textStatus, errorThrown) {
+
+      }
+    });
+
+    console.log("CallAPI...END")
+  }
+
+</script>
+</body>
+</html>
